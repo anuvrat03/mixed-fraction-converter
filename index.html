@@ -87,7 +87,7 @@
   <div class="converter-card">
     <div class="display">
       <div id="input" class="input-display"></div>
-      <div id="output" class="output-display">Enter a fraction</div>
+      <div id="output" class="output-display">Enter fraction & press =</div>
     </div>
     <div class="keypad">
       <button onclick="press('7')">7</button>
@@ -104,9 +104,10 @@
 
       <button class="clear-btn" onclick="clearAll()">C</button>
       <button onclick="press('0')">0</button>
-      <button class="op-btn" onclick="press('/')">/</button>
+      <button class="op-btn" onclick="backspace()">⌫</button>
 
-      <button class="equals-btn" onclick="calculate()">=</button>
+      <button class="op-btn" onclick="press('/')">/</button>
+      <button class="equals-btn" style="grid-column: span 2;" onclick="calculate()">=</button>
     </div>
   </div>
 
@@ -121,10 +122,15 @@
       document.getElementById('input').innerText = inputString;
     }
 
+    function backspace() {
+      inputString = inputString.slice(0, -1);
+      document.getElementById('input').innerText = inputString;
+    }
+
     function clearAll() {
       inputString = "";
       document.getElementById('input').innerText = "";
-      document.getElementById('output').innerText = "Enter a fraction";
+      document.getElementById('output').innerText = "Enter fraction & press =";
     }
 
     function gcd(a, b) {
@@ -132,7 +138,7 @@
     }
 
     function convertToMixed(numStr) {
-      if (!numStr.includes('/')) return "Enter a valid fraction";
+      if (!numStr.includes('/')) return "Enter denominator";
       
       const parts = numStr.split('/');
       const numerator = parseInt(parts[0], 10);
