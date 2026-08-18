@@ -72,6 +72,14 @@
       background: #ffe5e5;
       color: #d93025;
     }
+    button.equals-btn {
+      grid-column: span 3;
+      background: #007aff;
+      color: #ffffff;
+    }
+    button.equals-btn:active {
+      background: #005bb5;
+    }
   </style>
 </head>
 <body>
@@ -97,6 +105,8 @@
       <button class="clear-btn" onclick="clearAll()">C</button>
       <button onclick="press('0')">0</button>
       <button class="op-btn" onclick="press('/')">/</button>
+
+      <button class="equals-btn" onclick="calculate()">=</button>
     </div>
   </div>
 
@@ -104,17 +114,17 @@
     let inputString = "";
 
     function press(val) {
-      // Prevent multiple slashes or starting with a slash
       if (val === '/') {
         if (inputString === "" || inputString.includes('/')) return;
       }
       inputString += val;
-      updateUI();
+      document.getElementById('input').innerText = inputString;
     }
 
     function clearAll() {
       inputString = "";
-      updateUI();
+      document.getElementById('input').innerText = "";
+      document.getElementById('output').innerText = "Enter a fraction";
     }
 
     function gcd(a, b) {
@@ -122,14 +132,13 @@
     }
 
     function convertToMixed(numStr) {
-      if (!numStr.includes('/')) return "";
+      if (!numStr.includes('/')) return "Enter a valid fraction";
       
       const parts = numStr.split('/');
       const numerator = parseInt(parts[0], 10);
       const denominator = parseInt(parts[1], 10);
 
-      if (isNaN(numerator)) return "";
-      if (isNaN(denominator)) return "Enter denominator";
+      if (isNaN(numerator) || isNaN(denominator)) return "Invalid fraction";
       if (denominator === 0) return "Cannot divide by 0";
 
       const whole = Math.floor(numerator / denominator);
@@ -139,7 +148,6 @@
         return `= ${whole}`;
       }
 
-      // Simplify remainder fraction
       const divisor = gcd(remNumerator, denominator);
       const simplifiedNum = remNumerator / divisor;
       const simplifiedDen = denominator / divisor;
@@ -151,10 +159,10 @@
       return `= ${whole} ${simplifiedNum}/${simplifiedDen}`;
     }
 
-    function updateUI() {
-      document.getElementById('input').innerText = inputString;
+    function calculate() {
+      if (!inputString) return;
       const result = convertToMixed(inputString);
-      document.getElementById('output').innerText = result || (inputString ? "" : "Enter a fraction");
+      document.getElementById('output').innerText = result;
     }
   </script>
 </body>
