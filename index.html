@@ -14,51 +14,96 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background-color: #2c2c2c;
+      background-color: #1a1a1a;
       margin: 0;
     }
     .converter-card {
-      background: #e0e0e0;
+      background: #e6e8eb;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
       width: 100%;
-      max-width: 340px;
+      max-width: 360px;
     }
     
-    /* Screen Display Styling */
-    .display {
-      background: #80c0d0;
-      border: 2px solid #5a90a0;
-      border-radius: 6px;
-      padding: 16px;
-      min-height: 100px;
+    /* Screen Display Container */
+    .screen-container {
+      background: #73b8c8;
+      border: 2px solid #4a94a5;
+      border-radius: 8px;
+      padding: 12px 16px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.25);
+    }
+
+    /* Screen Top Bar for Share Action */
+    .screen-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      height: 24px;
+    }
+    .app-title {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: #1a3c45;
+      text-transform: uppercase;
+    }
+    .share-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+      color: #1a3c45;
+      box-shadow: none;
+    }
+    .share-btn:active {
+      opacity: 0.6;
+      background: none;
+    }
+    .share-btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
+
+    .display-body {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      margin-bottom: 20px;
-      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
-    }
-    
-    .input-text {
-      font-size: 1.8rem;
-      color: #111;
-      font-weight: bold;
+      width: 100%;
+      min-height: 70px;
     }
 
-    /* Vertical Fraction Layout */
+    .input-text {
+      font-size: 2.2rem;
+      color: #000;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    /* Extra-Large, Sharp Mixed-Number Typography */
     .mixed-number {
       display: inline-flex;
       align-items: center;
-      font-size: 2.8rem;
-      font-weight: bold;
       color: #000;
       line-height: 1;
     }
     
     .whole-part {
-      margin-right: 6px;
-      font-size: 3.2rem;
+      font-size: 5rem;
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-right: 8px;
+      -webkit-font-smoothing: antialiased;
     }
     
     .fraction-part {
@@ -66,18 +111,19 @@
       flex-direction: column;
       align-items: center;
       vertical-align: middle;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 800;
     }
     
     .numerator {
-      border-bottom: 2px solid #000;
-      padding: 0 4px 2px 4px;
+      border-bottom: 3px solid #000;
+      padding: 0 4px 1px 4px;
       text-align: center;
       width: 100%;
     }
     
     .denominator {
-      padding: 2px 4px 0 4px;
+      padding: 1px 4px 0 4px;
       text-align: center;
       width: 100%;
     }
@@ -91,29 +137,36 @@
     button {
       padding: 14px;
       font-size: 1.3rem;
-      font-weight: 600;
-      border: 1px solid #b0b0b0;
-      border-radius: 6px;
-      background: linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%);
+      font-weight: 700;
+      border: 1px solid #b5b8bc;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #ffffff 0%, #d8dcd0 100%);
       color: #111;
       cursor: pointer;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+      box-shadow: 0 3px 0 #a2a6ab, 0 4px 6px rgba(0,0,0,0.1);
     }
     button:active {
-      background: #c0c0c0;
+      transform: translateY(2px);
+      box-shadow: 0 1px 0 #a2a6ab, 0 2px 3px rgba(0,0,0,0.1);
     }
     button.op-btn {
-      background: linear-gradient(180deg, #e8f0fe 0%, #b8d0f8 100%);
-      color: #004080;
+      background: linear-gradient(180deg, #e4edfd 0%, #b5cef7 100%);
+      color: #003670;
+      border-color: #9cbce8;
+      box-shadow: 0 3px 0 #85a8da;
     }
     button.clear-btn {
-      background: linear-gradient(180deg, #ffdddd 0%, #f8b8b8 100%);
-      color: #a00000;
+      background: linear-gradient(180deg, #fde4e4 0%, #f7b5b5 100%);
+      color: #8c0000;
+      border-color: #e89c9c;
+      box-shadow: 0 3px 0 #da8585;
     }
     button.equals-btn {
       grid-column: span 2;
-      background: linear-gradient(180deg, #ffb040 0%, #e08000 100%);
+      background: linear-gradient(180deg, #ffa41b 0%, #e07b00 100%);
       color: #fff;
+      border-color: #c96f00;
+      box-shadow: 0 3px 0 #b06100;
       text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
   </style>
@@ -121,8 +174,19 @@
 <body>
 
   <div class="converter-card">
-    <div class="display" id="display-screen">
-      <span class="input-text" id="screen-content"></span>
+    <div class="screen-container">
+      <div class="screen-header">
+        <span class="app-title">Fraction Calculator</span>
+        <button class="share-btn" onclick="shareResult()" title="Share Result">
+          <!-- Share Icon -->
+          <svg viewBox="0 0 24 24">
+            <path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/>
+          </svg>
+        </button>
+      </div>
+      <div class="display-body" id="display-screen">
+        <span class="input-text"></span>
+      </div>
     </div>
 
     <div class="keypad">
@@ -149,6 +213,7 @@
 
   <script>
     let inputString = "";
+    let lastCalculatedText = "";
 
     function press(val) {
       if (val === '/') {
@@ -165,6 +230,7 @@
 
     function clearAll() {
       inputString = "";
+      lastCalculatedText = "";
       document.getElementById('display-screen').innerHTML = `<span class="input-text"></span>`;
     }
 
@@ -185,24 +251,23 @@
 
       if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
         document.getElementById('display-screen').innerHTML = `<span class="input-text">Error</span>`;
+        lastCalculatedText = "Error";
         return;
       }
 
       const whole = Math.floor(numerator / denominator);
       const remNumerator = numerator % denominator;
 
-      // Case 1: Divides evenly into a whole number
       if (remNumerator === 0) {
         document.getElementById('display-screen').innerHTML = `<div class="mixed-number"><span class="whole-part">${whole}</span></div>`;
+        lastCalculatedText = `${whole}`;
         return;
       }
 
-      // Simplify fraction
       const divisor = gcd(remNumerator, denominator);
       const simpNum = remNumerator / divisor;
       const simpDen = denominator / divisor;
 
-      // Case 2: Proper fraction (Whole number is 0)
       if (whole === 0) {
         document.getElementById('display-screen').innerHTML = `
           <div class="mixed-number">
@@ -211,10 +276,10 @@
               <div class="denominator">${simpDen}</div>
             </div>
           </div>`;
+        lastCalculatedText = `${simpNum}/${simpDen}`;
         return;
       }
 
-      // Case 3: Mixed number
       document.getElementById('display-screen').innerHTML = `
         <div class="mixed-number">
           <span class="whole-part">${whole}</span>
@@ -223,6 +288,26 @@
             <div class="denominator">${simpDen}</div>
           </div>
         </div>`;
+      lastCalculatedText = `${whole} ${simpNum}/${simpDen}`;
+    }
+
+    function shareResult() {
+      const textToShare = lastCalculatedText || inputString;
+      if (!textToShare) {
+        alert("Nothing to share yet!");
+        return;
+      }
+
+      if (navigator.share) {
+        navigator.share({
+          title: 'Fraction Calculation',
+          text: `Fraction Result: ${textToShare}`
+        }).catch(() => {});
+      } else {
+        navigator.clipboard.writeText(textToShare).then(() => {
+          alert(`Copied to clipboard: ${textToShare}`);
+        });
+      }
     }
   </script>
 </body>
