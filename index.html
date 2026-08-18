@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Fraction to Mixed Number Converter</title>
+  <title>Fraction Calculator</title>
   <style>
     * {
       box-sizing: border-box;
@@ -14,81 +14,117 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background-color: #f4f4f9;
+      background-color: #2c2c2c;
       margin: 0;
     }
     .converter-card {
-      background: #ffffff;
-      padding: 24px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+      background: #e0e0e0;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
       width: 100%;
-      max-width: 320px;
+      max-width: 340px;
     }
+    
+    /* Screen Display Styling */
     .display {
-      background: #f0f2f5;
-      border-radius: 8px;
+      background: #80c0d0;
+      border: 2px solid #5a90a0;
+      border-radius: 6px;
       padding: 16px;
-      text-align: right;
-      margin-bottom: 16px;
+      min-height: 100px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin-bottom: 20px;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,0.2);
     }
-    .input-display {
-      font-size: 1.4rem;
-      color: #333;
-      min-height: 32px;
-      word-wrap: break-word;
+    
+    .input-text {
+      font-size: 1.8rem;
+      color: #111;
+      font-weight: bold;
     }
-    .output-display {
-      font-size: 1.1rem;
-      color: #007aff;
-      font-weight: 600;
-      min-height: 24px;
-      margin-top: 8px;
+
+    /* Vertical Fraction Layout */
+    .mixed-number {
+      display: inline-flex;
+      align-items: center;
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #000;
+      line-height: 1;
     }
+    
+    .whole-part {
+      margin-right: 6px;
+      font-size: 3.2rem;
+    }
+    
+    .fraction-part {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      vertical-align: middle;
+      font-size: 1.5rem;
+    }
+    
+    .numerator {
+      border-bottom: 2px solid #000;
+      padding: 0 4px 2px 4px;
+      text-align: center;
+      width: 100%;
+    }
+    
+    .denominator {
+      padding: 2px 4px 0 4px;
+      text-align: center;
+      width: 100%;
+    }
+
+    /* Keypad Styling */
     .keypad {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 10px;
     }
     button {
-      padding: 16px;
-      font-size: 1.25rem;
+      padding: 14px;
+      font-size: 1.3rem;
       font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      background: #e4e6eb;
-      color: #1c1e21;
+      border: 1px solid #b0b0b0;
+      border-radius: 6px;
+      background: linear-gradient(180deg, #ffffff 0%, #d8d8d8 100%);
+      color: #111;
       cursor: pointer;
-      transition: background 0.15s ease;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.15);
     }
     button:active {
-      background: #d0d2d6;
+      background: #c0c0c0;
     }
     button.op-btn {
-      background: #d8e4f8;
-      color: #0056b3;
+      background: linear-gradient(180deg, #e8f0fe 0%, #b8d0f8 100%);
+      color: #004080;
     }
     button.clear-btn {
-      background: #ffe5e5;
-      color: #d93025;
+      background: linear-gradient(180deg, #ffdddd 0%, #f8b8b8 100%);
+      color: #a00000;
     }
     button.equals-btn {
-      grid-column: span 3;
-      background: #007aff;
-      color: #ffffff;
-    }
-    button.equals-btn:active {
-      background: #005bb5;
+      grid-column: span 2;
+      background: linear-gradient(180deg, #ffb040 0%, #e08000 100%);
+      color: #fff;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
     }
   </style>
 </head>
 <body>
 
   <div class="converter-card">
-    <div class="display">
-      <div id="input" class="input-display"></div>
-      <div id="output" class="output-display">Enter fraction & press =</div>
+    <div class="display" id="display-screen">
+      <span class="input-text" id="screen-content"></span>
     </div>
+
     <div class="keypad">
       <button onclick="press('7')">7</button>
       <button onclick="press('8')">8</button>
@@ -107,7 +143,7 @@
       <button class="op-btn" onclick="backspace()">⌫</button>
 
       <button class="op-btn" onclick="press('/')">/</button>
-      <button class="equals-btn" style="grid-column: span 2;" onclick="calculate()">=</button>
+      <button class="equals-btn" onclick="calculate()">=</button>
     </div>
   </div>
 
@@ -119,56 +155,74 @@
         if (inputString === "" || inputString.includes('/')) return;
       }
       inputString += val;
-      document.getElementById('input').innerText = inputString;
+      renderInput();
     }
 
     function backspace() {
       inputString = inputString.slice(0, -1);
-      document.getElementById('input').innerText = inputString;
+      renderInput();
     }
 
     function clearAll() {
       inputString = "";
-      document.getElementById('input').innerText = "";
-      document.getElementById('output').innerText = "Enter fraction & press =";
+      document.getElementById('display-screen').innerHTML = `<span class="input-text"></span>`;
+    }
+
+    function renderInput() {
+      document.getElementById('display-screen').innerHTML = `<span class="input-text">${inputString}</span>`;
     }
 
     function gcd(a, b) {
       return b === 0 ? a : gcd(b, a % b);
     }
 
-    function convertToMixed(numStr) {
-      if (!numStr.includes('/')) return "Enter denominator";
-      
-      const parts = numStr.split('/');
+    function calculate() {
+      if (!inputString.includes('/')) return;
+
+      const parts = inputString.split('/');
       const numerator = parseInt(parts[0], 10);
       const denominator = parseInt(parts[1], 10);
 
-      if (isNaN(numerator) || isNaN(denominator)) return "Invalid fraction";
-      if (denominator === 0) return "Cannot divide by 0";
+      if (isNaN(numerator) || isNaN(denominator) || denominator === 0) {
+        document.getElementById('display-screen').innerHTML = `<span class="input-text">Error</span>`;
+        return;
+      }
 
       const whole = Math.floor(numerator / denominator);
       const remNumerator = numerator % denominator;
 
+      // Case 1: Divides evenly into a whole number
       if (remNumerator === 0) {
-        return `= ${whole}`;
+        document.getElementById('display-screen').innerHTML = `<div class="mixed-number"><span class="whole-part">${whole}</span></div>`;
+        return;
       }
 
+      // Simplify fraction
       const divisor = gcd(remNumerator, denominator);
-      const simplifiedNum = remNumerator / divisor;
-      const simplifiedDen = denominator / divisor;
+      const simpNum = remNumerator / divisor;
+      const simpDen = denominator / divisor;
 
+      // Case 2: Proper fraction (Whole number is 0)
       if (whole === 0) {
-        return `= ${simplifiedNum}/${simplifiedDen}`;
+        document.getElementById('display-screen').innerHTML = `
+          <div class="mixed-number">
+            <div class="fraction-part">
+              <div class="numerator">${simpNum}</div>
+              <div class="denominator">${simpDen}</div>
+            </div>
+          </div>`;
+        return;
       }
 
-      return `= ${whole} ${simplifiedNum}/${simplifiedDen}`;
-    }
-
-    function calculate() {
-      if (!inputString) return;
-      const result = convertToMixed(inputString);
-      document.getElementById('output').innerText = result;
+      // Case 3: Mixed number
+      document.getElementById('display-screen').innerHTML = `
+        <div class="mixed-number">
+          <span class="whole-part">${whole}</span>
+          <div class="fraction-part">
+            <div class="numerator">${simpNum}</div>
+            <div class="denominator">${simpDen}</div>
+          </div>
+        </div>`;
     }
   </script>
 </body>
